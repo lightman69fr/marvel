@@ -63,11 +63,10 @@ Personnages.prototype=
         
         var This = this;
         
-        var PRIV_KEY   = "5d62c8396ef3ff66213aeac64e020ce8e51743f8";
         var PUBLIC_KEY = "a16d8956cd76927ea53d489bba636c59";
         
         var ts   = new Date().getTime();
-        var hash = md5(ts + PRIV_KEY + PUBLIC_KEY);
+        var hash = '552f39f60cff390bd30671513415f1ba';
         
         var params =
         {
