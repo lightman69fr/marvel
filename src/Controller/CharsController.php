@@ -11,11 +11,8 @@ class CharsController extends AbstractController
 		
 	}
 
-	public function index(Request $httpReq)
+	public function index()
     {
-		//$defaultName = 'Guillaume';
-		//$httpReqData = $httpReq->get('name',$defaultName);
-		
 		return $this->render('chars.html.twig');
     }
 	
@@ -88,7 +85,7 @@ class CharsController extends AbstractController
 				$personnageDescription = 'Aucune description n\'a été fournie pour ce personnage.';
 			}
 			
-			$nbComics              = count($listeDesComics);
+			$nbComics           = count($listeDesComics);
 			
 			$tabComicsAAfficher = [];
 			$nbComicsAAfficher  = 3;
@@ -120,5 +117,3 @@ class CharsController extends AbstractController
 		}
 	}
 }
-
-
