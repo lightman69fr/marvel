@@ -13,13 +13,10 @@ class CharsController extends AbstractController
 
 	public function index(Request $httpReq)
     {
-		$defaultName = 'Guillaume';
-		$httpReqData = $httpReq->get('name',$defaultName);
+		//$defaultName = 'Guillaume';
+		//$httpReqData = $httpReq->get('name',$defaultName);
 		
-		return $this->render('chars.html.twig',
-		[
-            'userName' => $httpReqData
-        ]);
+		return $this->render('chars.html.twig');
     }
 	
 	public function getPersonnages(Request $postReq)
@@ -64,11 +61,8 @@ class CharsController extends AbstractController
 		{
 			$persID = $persIDreq->get('id');
 			
-			var_dump($persID);
-			
 			return $this->render('showChar.html.twig',
 			[
-				'userName'     => 'none',
 				'personnageID' => $persID
 			]);
 		}
