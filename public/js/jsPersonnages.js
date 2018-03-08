@@ -134,6 +134,8 @@ Personnages.prototype=
                         
                         json_listeComics = rep;
                         
+                        console.log(json_listeComics);
+                        
                         // une fois tout récupéré, on fait un appel à la méthode showPersonnage qui se charge de faire le tri dans les données et de les envoyer en JSON à Symfony4
                         This.showPersonnage(json_infosPersonnages,json_listeComics);
                     },
@@ -227,9 +229,9 @@ Personnages.prototype=
             var nbComics    = 0;
             var listeComics = null;
             
-            if(data.hasOwnProperty('count'))
+            if(data.hasOwnProperty('total'))
             {
-                nbComics = data.count.toString();
+                nbComics = data.total.toString();
             }
             
             if(data.hasOwnProperty('results'))
@@ -371,8 +373,8 @@ Personnages.prototype=
         
         var dataAPI_CharacterDataContainer =
         {
-            offset : 0,
-            limit  : 100
+            offset : 100,
+            limit  : 22
         };
         
         var apiParams = this.generateUrlParams(dataAPI_CharacterDataContainer);

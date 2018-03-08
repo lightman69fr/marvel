@@ -85,7 +85,8 @@ class CharsController extends AbstractController
 				$personnageDescription = 'Aucune description n\'a été fournie pour ce personnage.';
 			}
 			
-			$nbComics           = count($listeDesComics);
+			$nbComics             = $objDonneesComics->nbComics;
+			//$nbComics           = count($listeDesComics);
 			
 			$tabComicsAAfficher = [];
 			$nbComicsAAfficher  = 3;
