@@ -1,7 +1,26 @@
+/*
+*
+* Classe Personnages
+* Créée le 08 mars 2018
+* Auteur                : Guillaume Giroud
+* Dernière modification : 08 mars 2018
+*
+*/
+
 var Personnages = function (params)
 {
-    var mode = 'liste';
+    var PUBLIC_KEY = configKeys.public_key;
+    var ts         = new Date().getTime();
+    var hash       = md5(ts+configKeys.private_key+configKeys.public_key); 
     
+    var mode       = 'liste';     //mode par défaut : liste des personnages
+    
+    this.PUBLIC_KEY = PUBLIC_KEY;
+    this.hash       = hash;
+    this.ts         = ts;
+    
+    
+    //on vérifie que des paramètres sont présents et valides
     if(isDefined(params))
     {
         if(isObject(params))
@@ -14,7 +33,7 @@ var Personnages = function (params)
                 }
                 else
                 {
-                    
+                    // sinon, le mode reste celui par défaut.
                 }
             }
         }
@@ -22,23 +41,22 @@ var Personnages = function (params)
     
     switch (mode)
     {
-        default:
+        default:        // on récupère la liste des personnages, quoi qu'il arrive.
             this.getListPersonnages();
         break;
         
-        case 'liste':
+        case 'liste':   //si c'est le mode "liste", on récupère la liste des personnages.
             this.getListPersonnages();
         break;
             
-        case 'showPers':
-            
-            if(params.hasOwnProperty('persID'))
+        case 'showPers':    // si c'est le mode "showPers", on affiche le personnage choisi
+            if(params.hasOwnProperty('persID')) // en fonction de son ID, si il est présent
             {
                 var persID = parseInt(params.persID);
                 this.getPersonnage(persID);
             }
             else
-            {
+            {   // sinon, on affiche un alert
                 alert('Aucun id de persnnage fourni');
             }
         break;
@@ -47,64 +65,59 @@ var Personnages = function (params)
 
 Personnages.prototype=
 {
+    // méthode de récupération du personnage par son ID
     getPersonnage:function(personnageID)
     {
         if(isDefined(personnageID) )
         {
             if(isInt(personnageID))
             {
-                
             }
             else
             {
-                
             }
         }
         
-        var This = this;
+        var This       = this;
+        var PUBLIC_KEY = This.PUBLIC_KEY;   //"a16d8956cd76927ea53d489bba636c59";
+        var hash       = This.hash;         //'552f39f60cff390bd30671513415f1ba';
+        var ts         = This.ts;           //new Date().getTime();
         
-        var PUBLIC_KEY = "a16d8956cd76927ea53d489bba636c59";
-        
-        var ts   = new Date().getTime();
-        var hash = '552f39f60cff390bd30671513415f1ba';
-        
-        var params =
-        {
-            "apikey": PUBLIC_KEY,
-            "ts"    : ts,
-            "hash"  : hash
-        };
-        
-        
-        var dataAPI_CharacterDataContainer =
+        // Paramètres permettant de sélectionner les 100 premiers comics, par ordre de vente (parution).
+        var dataAPI_ComicsListParameters =
         {
             offset  : 0,
             limit   : 100,
             orderBy : 'onsaleDate'
         };
         
-        var apiParams = this.generateUrlParams(dataAPI_CharacterDataContainer);
+        var apiParams      = this.generateUrlParams(dataAPI_ComicsListParameters);  // création des paramètres pour la requète d'accès à l'API Marvel en mode Server Side
         
-        var pageReadComics = 'http://gateway.marvel.com/v1/public/characters/'+personnageID+'/comics?ts='+ts+'&apikey='+PUBLIC_KEY+'&hash='+hash+'&'+apiParams;
-        var pageReadPerso  = 'http://gateway.marvel.com/v1/public/characters/'+personnageID+'?ts='+ts+'&apikey='+PUBLIC_KEY+'&hash='+hash;
+        // requètes de sélection sur l'API Marvel en mode Server Side.
+        var pageReadComics = 'http://gateway.marvel.com/v1/public/characters/'+personnageID+'/comics?ts='+ts+'&apikey='+PUBLIC_KEY+'&hash='+hash+'&'+apiParams; // liste des comics
+        var pageReadPerso  = 'http://gateway.marvel.com/v1/public/characters/'+personnageID+'?ts='+ts+'&apikey='+PUBLIC_KEY+'&hash='+hash;                      // infos personnage
         var methode        = 'GET';
         
+        
+        // Nécessaire pour exécuter la requète Ajax pour interroger l'API Marvel
+        // Permet d'autoriser le navigateur à obtenir les donnée de l'API depuis une IP différente de celle où est hébergée le script (Cross Domain)
         var headers =
         [
             {
-                titre  : 'Access-Control-Allow-Origin',
-                valeur : '*'
+                titre  : 'Access-Control-Allow-Origin',     // titre de l'entête : Pour le Cross Domain : adresse à autoriser
+                valeur : '*'                                // ici, on autorise le Cross Domain depuis n'importe où.
             }
         ];
         
-        var json_infosPersonnages = null;
-        var json_listeComics      = null;
-            
         
+        var json_infosPersonnages = null;
+        var json_listeComics      = null;    
+        
+        // requète de récupération des infos sur le personnage
         var paramsAjaxPerso =
         {
             page     : pageReadPerso,
-            methode  : methode,
+            methode  : methode,         // méthode d'envoie des données. ICI, c'est GET
             callback : function (reponse)
             {
                 var rep = JSON.parse(reponse);
@@ -121,20 +134,25 @@ Personnages.prototype=
                         
                         json_listeComics = rep;
                         
+                        // une fois tout récupéré, on fait un appel à la méthode showPersonnage qui se charge de faire le tri dans les données et de les envoyer en JSON à Symfony4
                         This.showPersonnage(json_infosPersonnages,json_listeComics);
                     },
                 };
                 
+                //  exécution de la requète Ajax
                 var ajaxComics = new AjaxHome(paramsAjaxComics);
-                
             },
         };
         
-        
+        //  exécution de la requète Ajax
         var ajaxPerso = new AjaxHome(paramsAjaxPerso); 
-        
     },
     
+    
+    // Méthode permettant d'afficher le personnage choisi
+    // paramètres :
+    //      json_infosPersonnage : informations sur le personnage
+    //      json_listeComics     : liste des comics
     showPersonnage:function(json_infosPersonnage,json_listeComics)
     {
         /******************** Informations sur le personnage ********************/
@@ -176,13 +194,14 @@ Personnages.prototype=
                         image = infosPersonnage.thumbnail.path+'.'+infosPersonnage.thumbnail.extension;
                     }
                 }
-
+                
+                // données du personnage qui seront envoyées à PHP
                 var personnage =
                 {
-                    id          : persID,
-                    nom         : nom,
-                    description : description,
-                    image       : image
+                    id          : persID,       // id du personnage
+                    nom         : nom,          // nom du personnage
+                    description : description,  // description du personnage
+                    image       : image         // image du personnage
                 };
             }
             else
@@ -257,13 +276,14 @@ Personnages.prototype=
                             }
                         }
                         
+                        // données du comic
                         listeComicsShort[i] =
                         {
-                            id          : comicID,
-                            titre       : comicTitle,
-                            description : comicDesc,
-                            images      : comicImages,
-                            dates       : comicDates
+                            id          : comicID,          // id du comic
+                            titre       : comicTitle,       // titre du comic
+                            description : comicDesc,        // description du comic
+                            images      : comicImages,      // image(s) du comic
+                            dates       : comicDates        // date(s) du comic
                         };
                     }
                 }
@@ -290,9 +310,11 @@ Personnages.prototype=
             listeDesComics  : listeComicsShort
         };
         
-        var dataPersonnage = JSON.stringify(objDonneesPersonnage);
-        var dataComics     = JSON.stringify(objDonneeComics);
+        var dataPersonnage = JSON.stringify(objDonneesPersonnage);  // mise en forme des données du personnage pour la transmission
+        var dataComics     = JSON.stringify(objDonneeComics);       // mise en forme de la liste des comics pour la transmission
         
+        
+        // données pour la transmission vers Symfony4
         var page    = '/showCharDetails';
         var methode = 'POST';
         
@@ -305,32 +327,23 @@ Personnages.prototype=
         var paramsAjax =
         {
             page     : page,
-            methode  : methode,
+            methode  : methode,     // pour la transmission des données, c'est POST
             data     : params,
             headers  : 
             [
                 {
                     titre  : 'Content-type',
-                    valeur : 'application/x-www-form-urlencoded'
+                    valeur : 'application/x-www-form-urlencoded'    // nécessaire pour l'envoi de données en mode POST
                 }
             ],
             callback : function(reponse)
             {
                 var cData = getID('cDataPersonnage');
-                cData.innerHTML = reponse;
+                cData.innerHTML = reponse;      // affichage du personnage dans le bloc
             }
         };
 
         var ajax = new AjaxHome(paramsAjax);
-        
-        /*
-        for (var i=0;i<listePersonnages.length;i++)
-        {
-            var pers = listePersonnages[i];
-            objListePersonnages['pers'+pers.persID] = JSON.stringify(pers);
-        }
-
-        
         
         /******************* / envoi des données du personnage *******************/
     },
@@ -339,16 +352,14 @@ Personnages.prototype=
     
     
     
-    
+    // méthode permettant de récupérer la liste des personnages
     getListPersonnages:function()
     {
-        var This = this;
         
-        var PRIV_KEY   = "5d62c8396ef3ff66213aeac64e020ce8e51743f8";
-        var PUBLIC_KEY = "a16d8956cd76927ea53d489bba636c59";
-        
-        var ts   = new Date().getTime();
-        var hash = md5(ts + PRIV_KEY + PUBLIC_KEY);
+        var This       = this;
+        var PUBLIC_KEY = This.PUBLIC_KEY;   //"a16d8956cd76927ea53d489bba636c59";
+        var hash       = This.hash;         //'552f39f60cff390bd30671513415f1ba';
+        var ts         = This.ts;           //new Date().getTime();
         
         var params =
         {

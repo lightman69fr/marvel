@@ -635,3 +635,10 @@ function $preventDefault (evt)
     $.md5 = md5
   }
 })(this)
+
+
+var configKeys =
+{
+    "private_key" : "5d62c8396ef3ff66213aeac64e020ce8e51743f8", 
+    "public_key"  : "a16d8956cd76927ea53d489bba636c59"
+}

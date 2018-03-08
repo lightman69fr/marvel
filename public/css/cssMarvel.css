@@ -66,7 +66,8 @@ body {
   display: flex;
   flex-direction: row;
   margin: 5px;
-  width: calc((100% - (2*25px))/5);
+  width: calc((100% - (2*25px))/4);
+  max-width: calc((100% - (2*25px))/3);
 }
 
 #cListe a {
@@ -89,6 +90,7 @@ body {
   padding: 0px;
   position: relative;
   width: 128px;
+  min-width: 128px;
 }
 
 #cListe .cImg img {
