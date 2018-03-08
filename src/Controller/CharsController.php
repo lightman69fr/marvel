@@ -41,7 +41,7 @@ class CharsController extends AbstractController
 			$dataPers[$incPers]['persID']         = $obj->{'persID'};
 			$dataPers[$incPers]['nom']            = $obj->{'nom'};
 			$dataPers[$incPers]['image']          = $obj->{'image'};
-			$dataPers[$incPers]['comics']         = $obj->{'comics'};
+			$dataPers[$incPers]['hasDesc']        = $obj->{'hasDesc'};
 			
 			$incPers++;
 		}

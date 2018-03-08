@@ -10,6 +10,12 @@
                 </div>
                 <div class="persDatas">
                     <div class="persNom">{{personnage.nom}}</div>
+                    {% if personnage.hasDesc > 0 %}
+                    <div class="hasDesc">
+                        {{ personnage.hasDesc }}
+                        <img src="{{ asset('images/description.png') }}" title="Dispose d'une description" alt="Dispose d'une description" />
+                    </div>
+                    {% endif %}
                 </div>
             </a>
         </li>

@@ -181,7 +181,7 @@ Personnages.prototype=
                 
                 if(infosPersonnage.hasOwnProperty('description'))
                 {
-                    if(sizeOf(infosPersonnage.description > 0))
+                    if(sizeOf(infosPersonnage.description) > 0)
                     {
                         description = infosPersonnage.description;
                     }
@@ -371,8 +371,8 @@ Personnages.prototype=
         
         var dataAPI_CharacterDataContainer =
         {
-            offset : 100,
-            limit  : 22
+            offset : 0,
+            limit  : 100
         };
         
         var apiParams = this.generateUrlParams(dataAPI_CharacterDataContainer);
@@ -411,9 +411,10 @@ Personnages.prototype=
             var nombre = data.count;
             var debut  = data.offset;
             
-            var image  = null;
-            var persID = null;
-            var comics = ('non disponnible');
+            var image   = null;
+            var persID  = null;
+            var hasDesc = 0;
+            
             
             var listePersonnages = [];
             
@@ -444,12 +445,26 @@ Personnages.prototype=
                             image = personnage.thumbnail.path+'.'+personnage.thumbnail.extension;
                         }
                         
+                        if(personnage.hasOwnProperty('description'))
+                        {
+                            if(sizeOf(personnage.description) > 0)
+                            {
+                                hasDesc = sizeOf(personnage.description);
+                            }
+                            else
+                            {
+                                hasDesc = 0;
+                            }
+                        }
+                        
+                        hasDesc = hasDesc.toString();
+                        
                         var objPerso =
                         {
-                            persID : personnage.id,
-                            nom    : personnage.name,
-                            image  : image,
-                            comics : comics
+                            persID  : personnage.id,
+                            nom     : personnage.name,
+                            image   : image,
+                            hasDesc : hasDesc
                         };
                         
                         listePersonnages[i] = objPerso;
