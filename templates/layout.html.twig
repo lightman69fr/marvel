@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        
+        <link href="{{ asset('css/cssReseter.css') }}" type="text/css" rel="stylesheet" media="all">
+        <link href="{{ asset('css/css_fonts.css') }}" type="text/css" rel="stylesheet" media="all">
+        
+        <link href="{{ asset('css/cssMarvel.css') }}" type="text/css" rel="stylesheet" media="all">
+        
+        
+        <script src="{{ asset('js/jsCore.js') }}"></script>
+        <script src="{{ asset('js/jsPersonnages.js') }}"></script>
+        <script src="{{ asset('js/jsAjaxCore.js') }}"></script>
+        
+        
+        <title>{% block title %}{{ userName }}, voici mes super héros Marvel{% endblock %}</title>
+        {% block stylesheets %}{% endblock %}
+    </head>
+    <body>
+        <div id="cMenu">
+            {% block mainMenu %}
+            {{ render(controller("App\\Controller\\DefaultController::menu")) }}
+            {% endblock %}
+        </div>
+    
+        <div id="site">
+            {% block site %}
+            texte d'accueil
+            {% endblock %}
+        </div>
+        
+    </body>
+</html>
+

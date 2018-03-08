@@ -1,0 +1,69 @@
+@font-face {
+    font-family: "Poiret";
+    src: url("/css/fonts/PoiretOne-Regular.ttf");
+}
+@font-face {
+    font-family: "Comfortaa";
+    src: url("/css/fonts/Comfortaa/Comfortaa-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Zeyada";
+    src: url("/css/fonts/Zeyada.ttf");
+}
+
+@font-face {
+    font-family: "BadScript";
+    src: url("/css/fonts/BadScript-Regular.ttf");
+}
+
+@font-face {
+    font-family: "MarckScript";
+    src: url("/css/fonts/MarckScript-Regular.ttf");
+}
+
+@font-face {
+    font-family: "Roboto";
+    src: url("/css/fonts/Roboto/Roboto-Light.ttf");
+}
+
+@font-face {
+    font-family: "RobotoRegular";
+    src: url("/css/fonts/Roboto/Roboto-Regular.ttf");
+}
+
+@font-face {
+    font-family: "RobotoBold";
+    src: url("/css/fonts/Roboto/Roboto-Medium.ttf");
+}
+
+
+
+@font-face {
+    font-family: "RalewayThin";
+    src: url("/css/fonts/raleway/Raleway-Thin.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: "RalewayLight";
+    src: url("/css/fonts/raleway/Raleway-Light.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: "Raleway";
+    src: url("/css/fonts/raleway/Raleway-Regular.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: "RalewayBold";
+    src: url("/css/fonts/raleway/Raleway-Bold.ttf") format('truetype');
+}
+
+@font-face {
+    font-family: "RalewayBolder";
+    src: url("/css/fonts/MarckScript-ExtraBold.ttf") format('truetype');
+}
+
+
+
+/**/

@@ -1,0 +1,13 @@
+{% extends "chars.html.twig" %}
+{% block site %}
+    <div id="cDataPersonnage"></div>
+
+    <script>
+        var params =
+        {
+            mode   : 'showPers',
+            persID : {{ personnageID }}
+        };
+        var heros = new Personnages(params);
+    </script>
+{% endblock %}

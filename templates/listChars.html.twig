@@ -1,0 +1,20 @@
+{% block listePersonnages %}
+    <ul>
+    {%for personnage in dataPerso %}
+        <li id="{{personnage.persID}}">
+            <a href="{{ personnage.lienPersonnage }}">
+                <div class="cImg" style="background-image: url({{ personnage.image }})">
+                    <div class="persCount">
+                        {{personnage.persCount}}
+                    </div>
+                </div>
+                <div class="persDatas">
+                    <div class="persNom">{{personnage.nom}}</div>
+                </div>
+            </a>
+        </li>
+    {% endfor %}
+        
+    </ul>
+    
+{% endblock %}

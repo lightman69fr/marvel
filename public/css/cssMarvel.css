@@ -1,0 +1,186 @@
+body {
+  font-family: RalewayThin;
+}
+
+#cMenu {
+    background-color: rgba(00,10,30,0.6);
+    display: block;
+}
+
+#cMenu >ul {
+  display: flex;
+}
+
+#cMenu >ul >li {
+  color: rgba(255,255,255,0.9);
+}
+
+#cMenu >ul > li > a {
+  color: inherit;
+  display: block;
+  font-size: 16px;
+  letter-spacing: 3px;
+  padding: 20px;
+  text-decoration: none;
+}
+
+#cMenu >ul >li:hover{
+  color: rgba(255,255,255,1);
+  font-family:Raleway;
+}
+
+
+#site {
+  background-color: rgba(0,0,0,0.03);
+  border: solid 1px rgba(0,0,0,0.15);
+  border-radius: 4px;
+  font-family: Raleway;
+  font-size: 14px;
+  margin: 10px;
+  padding: 5px 5px 7px 10px;
+}
+
+#site >.titre {
+  color: rgba(0,10,100,0.75);
+  font-family: RalewayBold;
+  font-size: 16px;
+  letter-spacing: 1px; 
+}
+
+#cListe {
+}
+
+#cListe > ul {
+  display: flex;
+  flex-direction: row;
+  flex-wrap:wrap;
+  width: 100%;
+  overflow: auto;
+  height: calc(100vh - 120px);
+}
+
+#cListe >ul >li {
+  background-color: rgba(255,255,255,1);
+  border:solid 1px rgba(0,0,0,0.1);
+  border-radius: 3px;
+  display: flex;
+  flex-direction: row;
+  margin: 5px;
+  width: calc((100% - (2*25px))/5);
+}
+
+#cListe a {
+  color: inherit;
+  display: flex;
+  padding:5px;
+  text-decoration: none;
+  width: 100%;
+}
+
+#cListe .cImg {
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  border: solid 1px rgba(0,0,0,0.1);
+  border-radius:3px;
+  height: 128px;
+  margin-right: 10px;
+  overflow:hidden;
+  padding: 0px;
+  position: relative;
+  width: 128px;
+}
+
+#cListe .cImg img {
+  height: 128px;
+  width: auto;
+  border: 0;
+  position: absolute;
+}
+
+#cListe .persCount {
+  background-color: rgba(255,255,255,0.75);
+  border-radius: 20px;
+  display: block;
+  font-size: 16px;
+  height: 24px;
+  padding: 0 1px 1px 0;
+  position: absolute;
+  width: 24px;
+  right: 0;
+  z-index: 1;
+  top: 5px;
+  left: 5px;
+  text-align: center;
+}
+
+#cListe .persDatas .persNom {
+  font-size: 11px;
+  font-family: RalewayBold;
+  letter-spacing: 1px;
+  margin-right: 5px;
+  width: 150px;
+}
+
+
+
+#cDataPersonnage {
+  
+}
+
+#cDataPersonnage >.personnageContainer {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageImage img {
+  max-height: 400px;
+  max-width: 400px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageInfos {
+  display: block;
+  margin-left: 10px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageInfos .nom {
+  font-family: RalewayBold;
+  font-size: 24px;
+  letter-spacing: 1px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageInfos .description {
+  font-size: 13px;
+  font-style: italic;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere {
+  margin-top: 20px;
+  width: 100%;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere > .nbComics {
+  font-size: 15px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere > .listeDesComics {
+  margin-top: 10px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere > .listeDesComics .titre {
+  font-size: 16px;
+  font-family: RalewayBold;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere > .listeDesComics > .liste {
+  display: flex;
+  flex-direction: column;
+  margin-left: 7px;
+  margin-top: 5px;
+}
+
+#cDataPersonnage >.personnageContainer > .personnageCarriere > .listeDesComics > .liste > li {
+  display: flex;
+  height: 30px;
+}

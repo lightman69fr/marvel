@@ -1,0 +1,10 @@
+{% block mainMenu %}
+<ul>
+    {% for menu in listeMenu%}
+        <li id="{{ menu.id }}}">
+            <a href="{{ menu.href }}">{{ menu.title }}</a>
+        </li>
+    {% endfor %}
+    
+</ul>
+{% endblock %}

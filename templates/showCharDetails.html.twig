@@ -1,0 +1,38 @@
+<div class="personnageContainer">
+    <div class="personnageImage">
+        <img src="{{ personnageImage }}" />
+    </div>
+    <div class="personnageInfos">
+        <div class="nom">
+            {{ personnageNom }}
+        </div>
+        <div class="description">
+            {{ personnageDescription }}
+        </div>
+    </div>
+    <div class="personnageCarriere">
+        <div class="nbComics">
+            Ce personnage apparaît dans <b>{{ personnageNbComics }}</b> comics de Marvel.
+        </div>
+        
+        {% if personnageNbComics > 0%}
+        <div class="listeDesComics">
+            <div class="titre">
+                Ses trois premières apparitions :
+            </div>
+            <ul class="liste">
+                {%for comic in personnagePremiersComics %}
+                    <li id="{{ comic.id }}}">
+                        <div class="comicCount">
+                            {{ comic.count }}
+                        </div>
+                        <div class="comicTitre">
+                            {{ comic.titre }}
+                        </div>
+                    </li>
+                {% endfor %}
+            </ul>
+        </div>
+        {% endif %}
+    </div>
+</div>

@@ -1,3 +1,31 @@
-#index:
-#    path: /
-#    controller: App\Controller\DefaultController::index
+index:
+    path: /
+    controller: App\Controller\DefaultController::index
+
+accueil:
+    path: /home
+    controller: App\Controller\DefaultController::index
+
+personnages:
+    path: /personnages
+    controller: App\Controller\CharsController::index
+
+getChars:
+    path: /getChars
+    controller: App\Controller\CharsController::getPersonnages
+
+showChars:
+    path: /personnages/show/{id}
+    controller: App\Controller\CharsController::showPersonnage
+    requirements:
+        id: \d+
+
+showCharDetails:
+    path: /showCharDetails
+    controller: App\Controller\CharsController::showPersonnage
+
+pageNotFound:
+    path: /{path}
+    controller: App\Controller\DefaultController::index
+    requirements:
+        path: .*

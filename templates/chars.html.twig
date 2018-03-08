@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+
+{% block site %}
+    <div class="titre">
+        Liste des personnages
+    </div>
+    
+    <div class="cListe" id="cListe">
+    {% block listePersonnages %}{% endblock %}
+    </div>
+
+<script>
+    var heros = new Personnages();
+</script>
+
+{% endblock %}
+
