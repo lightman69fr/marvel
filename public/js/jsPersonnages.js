@@ -410,13 +410,13 @@ Personnages.prototype=
         {
             var data = json_listChars.data;
             
-            var nombre = data.count;
-            var debut  = data.offset;
+            var nombre   = data.count;
+            var debut    = data.offset;
             
-            var image   = null;
-            var persID  = null;
-            var hasDesc = 0;
-            
+            var image    = null;
+            var persID   = null;
+            var hasDesc  = 0;
+            var inComics = 0;
             
             var listePersonnages = [];
             
@@ -459,14 +459,23 @@ Personnages.prototype=
                             }
                         }
                         
+                        if(personnage.hasOwnProperty('comics'))
+                        {
+                            if(personnage.comics.hasOwnProperty('available'))
+                            {
+                                inComics = personnage.comics.available.toString();;
+                            }
+                        }
+                        
                         hasDesc = hasDesc.toString();
                         
                         var objPerso =
                         {
-                            persID  : personnage.id,
-                            nom     : personnage.name,
-                            image   : image,
-                            hasDesc : hasDesc
+                            persID   : personnage.id,
+                            nom      : personnage.name,
+                            image    : image,
+                            hasDesc  : hasDesc,
+                            inComics : inComics
                         };
                         
                         listePersonnages[i] = objPerso;
@@ -504,6 +513,8 @@ Personnages.prototype=
                 {
                     var cList = getID('cListe');
                     cList.innerHTML = reponse;
+                    
+                    var filtres = new Filtrages();
                 }
             };
             

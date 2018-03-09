@@ -10,6 +10,7 @@
         <script src="{{ asset('js/jsCore.js') }}"></script>
         <script src="{{ asset('js/jsPersonnages.js') }}"></script>
         <script src="{{ asset('js/jsAjaxCore.js') }}"></script>
+        <script src="{{ asset('js/jsFiltrage.js') }}"></script>
         
         <title>Mes super héros Marvel</title>
         {% block stylesheets %}{% endblock %}
@@ -23,7 +24,11 @@
     
         <div id="site">
             {% block site %}
-            texte d'accueil
+            Bonjour,<br />
+            Bienvenue sur l'application Marvel.
+            <br />
+            <br />
+            Pour accéder à la liste des personnages, veuillez cliquer sur le bouton "Personnages".
             {% endblock %}
         </div>
     </body>

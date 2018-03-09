@@ -48,6 +48,34 @@ body {
 }
 
 #cListe {
+  display:flex;
+  flex-direction:column;
+}
+
+#cListe >.filtrage {
+  height: 50px;
+  margin: 5px;
+}
+
+#cListe >.filtrage >.cButtons {
+  display: flex;
+  margin-top: 3px;
+}
+
+#cListe >.filtrage button {
+  background-color: rgba(254,255,254,1);
+  border: solid 1px rgba(0,0,0,0.2);
+  border-radius: 2px;
+  cursor: pointer;
+  padding: 2px;
+  height: 30px;
+  width: 280px;
+  margin-right:10px;
+}
+
+#cListe >.filtrage button:active {
+  box-shadow: inset 1px 1px 2px -1px rgba(0,0,0,0.25);
+  padding: 3px 1px 1px 3px;
 }
 
 #cListe > ul {
@@ -56,7 +84,7 @@ body {
   flex-wrap:wrap;
   width: 100%;
   overflow: auto;
-  height: calc(100vh - 120px);
+  height: calc(100vh - 180px);
 }
 
 #cListe >ul >li {
@@ -68,6 +96,11 @@ body {
   margin: 5px;
   width: calc((100% - (2*25px))/4);
   max-width: calc((100% - (2*25px))/3);
+  max-height: 140px;
+  
+  transition-property: opacity;
+  transition-duration: 200ms;
+  transition-timing-function: ease-in-out;
 }
 
 #cListe a {

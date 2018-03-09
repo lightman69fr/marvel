@@ -1,7 +1,17 @@
 {% block listePersonnages %}
-    <ul>
+    <div class="filtrage">
+        <div class="titre">
+            Filtrer les personnage
+        </div>
+        <div class="cButtons" id="btnsFiltrage">
+            <button id="hasDescription" type="button" clicked="0">
+                Seulement ceux qui ont une description
+            </button>
+        </div>
+    </div>
+    <ul id="listePersonnages">
     {%for personnage in dataPerso %}
-        <li id="{{personnage.persID}}">
+        <li id="{{personnage.persID}}" hasDescription="{{ personnage.hasDesc }}" inComics="{{ personnage.inComics }}">
             <a href="{{ personnage.lienPersonnage }}">
                 <div class="cImg" style="background-image: url({{ personnage.image }})">
                     <div class="persCount">

@@ -151,8 +151,6 @@ AjaxHome.prototype=
                 }
             }
             
-            
-            console.log(urlParams);
             xhrLink.send(urlParams);
         }
     },

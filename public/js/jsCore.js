@@ -1,3 +1,34 @@
+// Permet de savoir si un bloc est présent en fonction de son ID
+function BlocPresent(blocID)
+{
+    if(isString(blocID))
+    {
+        if(isDefined(getID(blocID)))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+    else
+    {
+        if(isDefined(blocID))
+        {
+            return true;
+        }
+        else
+        {
+            return false;
+        }
+    }
+}
+
+
+
+
+
 Array.prototype.clean = function(deleteValue)
 {
     if(typeof deleteValue === 'undefined')
