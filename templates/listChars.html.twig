@@ -4,7 +4,10 @@
             Filtrer les personnage
         </div>
         <div class="cButtons" id="btnsFiltrage">
-            <button id="hasDescription" type="button" clicked="0">
+            <button id="inComics" type="button" clicked="0" class="btnFiltre">
+                Seulement présents dans au moins un comic
+            </button>
+            <button id="hasDescription" type="button" clicked="0" class="btnFiltre">
                 Seulement ceux qui ont une description
             </button>
         </div>
@@ -20,12 +23,21 @@
                 </div>
                 <div class="persDatas">
                     <div class="persNom">{{personnage.nom}}</div>
-                    {% if personnage.hasDesc > 0 %}
-                    <div class="hasDesc">
-                        {{ personnage.hasDesc }}
-                        <img src="{{ asset('images/description.png') }}" title="Dispose d'une description" alt="Dispose d'une description" />
+                    <div class="infosPersonnage">
+                        {% if personnage.hasDesc > 0 %}
+                        <div class="hasDesc">
+                            {{ personnage.hasDesc }}
+                            <img src="{{ asset('images/description.png') }}" title="Dispose d'une description" alt="Dispose d'une description" />
+                        </div>
+                        {% endif %}
+
+                        {% if personnage.inComics > 0 %}
+                        <div class="inComics">
+                            <img src="{{ asset('images/comics.png') }}" title="Est dans au moins un comics" alt="Est dans au moins un comics" />
+                        </div>
+                        {% endif %}
+
                     </div>
-                    {% endif %}
                 </div>
             </a>
         </li>

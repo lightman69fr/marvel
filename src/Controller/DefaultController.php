@@ -18,8 +18,10 @@ class DefaultController extends AbstractController
 	public function menu()
 	{
 		$tabMenu = array(	
-			array(	'id' => 'menuHome' ,'title'	=> 'Accueil', 'href' => '/home'),
-			array(	'id' => 'menuChars','title'	=> 'Personnages'  , 'href' => '/personnages'),
+			array(	'id' => 'menuHome' ,'title'	=> 'Accueil'        , 'href' => '/home'),
+			array(	'id' => 'menuChars','title'	=> 'Personnages'    , 'href' => '/personnages'),
+			array(	'id' => 'doc'      ,'title'	=> 'Documentation'  , 'href' => '/home'),
+			
 		);
 		
 		return $this->render('menu.html.twig',

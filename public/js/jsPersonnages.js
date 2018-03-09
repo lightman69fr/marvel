@@ -357,11 +357,10 @@ Personnages.prototype=
     // méthode permettant de récupérer la liste des personnages
     getListPersonnages:function()
     {
-        
         var This       = this;
-        var PUBLIC_KEY = This.PUBLIC_KEY;   //"a16d8956cd76927ea53d489bba636c59";
-        var hash       = This.hash;         //'552f39f60cff390bd30671513415f1ba';
-        var ts         = This.ts;           //new Date().getTime();
+        var PUBLIC_KEY = This.PUBLIC_KEY;
+        var hash       = This.hash;
+        var ts         = This.ts;
         
         var params =
         {
@@ -567,11 +566,4 @@ Personnages.prototype=
         
         return chaineParams;
     },
-    
-    
-    
-    
-    
-    
-    
 }

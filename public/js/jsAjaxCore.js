@@ -1,12 +1,12 @@
 var AjaxHome = function(params)
 {
-    this.methode     = false;
-    this.page        = false;
-    this.data        = false;
-    this.headers     = false;
-    this.useCallback = false;
+    this.methode     = false;       // méthode de transmission des données
+    this.page        = false;       // page appelée lors de la requète Ajax
+    this.data        = false;       // (objet) contenant les données à envoyer
+    this.headers     = false;       // [array] tableau des headers supplémentaires au format (objet)
+    this.useCallback = false;       // fonction à appeler lorsque la requète a abouti (200);
     
-    this.xhr         = false;
+    this.xhr         = false;       // lien XHR
     
     if(isDefined(params) && isObject(params))
     {

@@ -1,5 +1,14 @@
 var Filtrages = function()
 {
+    this.btnFiltresState =
+    {
+        inComics       : 0,
+        hasDescription : 0
+    };
+    
+    
+    
+    
     if(BlocPresent('btnsFiltrage'))
     {
         var blocBtns = getID('btnsFiltrage');
@@ -19,6 +28,10 @@ Filtrages.prototype=
         
         if(BlocPresent(blocFiltres))
         {
+            var incElem              = 0;
+            var key                  = 0;
+            var blocListePersonnages = getID('listePersonnages');
+            
             [].forEach.call(blocFiltres.querySelectorAll('button'), function(elem)
             {
                 elem.addEventListener('click', function(evt)
@@ -28,60 +41,81 @@ Filtrages.prototype=
                     
                     switch(btnID)
                     {
+                        case 'inComics': // filtrage des personnages ayant obligatoirement une description
+                            var filtre               = 'inComics';
+                            This.filtrePersonnages(This,blocListePersonnages,filtre,blocFiltres);
+                        break;
                         case 'hasDescription': // filtrage des personnages ayant obligatoirement une description
                             var filtre               = 'hasDescription';
-                            var blocListePersonnages = getID('listePersonnages');
-                            This.filtrePersonnages(This,blocListePersonnages,filtre);
+                            This.filtrePersonnages(This,blocListePersonnages,filtre,blocFiltres);
                         break;
                     }
                 });
-            })
+            });
+            
         }
         else
         {
             alert('impossible de trouver le bloc de filtres');
         }
+        
+        //console.log(This.blocsSelected);
     },
     
-    filtrePersonnages:function(This,listePersonnages,filtre)
+    
+    
+    
+    
+    
+    filtrePersonnages:function(This,listePersonnages,filtre,blocBtnsFiltres)    // lorsqu'on a cliqué sur le bouton de filtre
     {
         if(BlocPresent(listePersonnages))
         {
             var btnFiltre      = getID(filtre);
-            var btnFiltreState = btnFiltre.getAttribute('clicked');
-
-            if(btnFiltreState == 1)
+            var btnFiltreState = This.btnFiltresState[filtre];
+            var blocSelected   = This.blocsSelected;
+            
+            if(This.btnFiltresState[filtre] == 0)
             {
-                btnFiltre.style.backgroundColor = '';
-                btnFiltre.setAttribute('clicked',0);
+                [].forEach.call(blocBtnsFiltres.querySelectorAll('button'), function(elem)
+                {
+                    if(elem.id == filtre)
+                    {
+                        elem.addClass('btnSelected');
+                        This.btnFiltresState[elem.id] = 1;
+                    }
+                    else
+                    {
+                        elem.removeClass('btnSelected');
+                        This.btnFiltresState[elem.id] = 0;
+                    }
+                });
+                
             }
             else
             {
-                btnFiltre.style.backgroundColor = 'rgba(0,150,140,0.1)';
-                btnFiltre.setAttribute('clicked',1);
+                This.btnFiltresState[filtre] = 0;
             }
             
             
             [].forEach.call(listePersonnages.querySelectorAll('li'), function(elem)
             {
                 var dataFiltre = parseInt(elem.getAttribute(filtre));
+                var filtreEch  = filtre;
                 
-                if(dataFiltre <= 0)
+                if(dataFiltre > 0)
                 {
-                    if(elem.style.opacity=='0' && btnFiltreState == 1)
+                    elem.style.opacity = '1';
+                }
+                else
+                {
+                    if(This.btnFiltresState[filtre] == 1)
                     {
-                        elem.style.position  = '';
-                        elem.style.transform = 'scale(1)';
-                        elem.style.opacity   = '1';
+                        elem.style.opacity = '0.25';
                     }
                     else
                     {
-                        if(btnFiltreState == 0)
-                        {
-                            elem.style.opacity='0';
-                            elem.addEventListener('transitionend',hideBlock,false);
-                            elem.filtre = filtre;
-                        }
+                        elem.style.opacity = '1';
                     }
                 }
             });
@@ -98,3 +132,12 @@ Filtrages.prototype=
         }
     },
 };
+
+
+
+
+
+
+
+
+
