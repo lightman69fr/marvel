@@ -94,6 +94,7 @@ Filtrages.prototype=
             }
             else
             {
+                btnFiltre.removeClass('btnSelected');
                 This.btnFiltresState[filtre] = 0;
             }
             
@@ -111,7 +112,7 @@ Filtrages.prototype=
                 {
                     if(This.btnFiltresState[filtre] == 1)
                     {
-                        elem.style.opacity = '0.25';
+                        elem.style.opacity = '0.15';
                     }
                     else
                     {
