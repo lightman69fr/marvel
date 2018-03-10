@@ -49,7 +49,8 @@ class CharsController extends AbstractController
 		
 		return $this->render('listChars.html.twig',
 		[
-			'dataPerso' => $dataPers
+			'dataPerso'      => $dataPers,
+			'resultatSelect' => $incPers
 		]);
 	}
 	

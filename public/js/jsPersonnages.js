@@ -46,7 +46,15 @@ var Personnages = function (params)
         break;
         
         case 'liste':   //si c'est le mode "liste", on récupère la liste des personnages.
-            this.getListPersonnages();
+            if(isDefined(params) && params.hasOwnProperty('paramsListe'))
+            {
+                var paramsListe = params.paramsListe;
+            }
+            else
+            {
+                var paramsListe = undefined;
+            }
+            this.getListPersonnages(paramsListe);
         break;
             
         case 'showPers':    // si c'est le mode "showPers", on affiche le personnage choisi
@@ -355,8 +363,34 @@ Personnages.prototype=
     
     
     // méthode permettant de récupérer la liste des personnages
-    getListPersonnages:function()
+    getListPersonnages:function(params)
     {
+        var selectionStartAt = 100; // valeur par défaut
+        var nbByPage         = 22;  // valeur par défaut
+        
+        if(isDefined(params))
+        {
+            if(isObject(params))
+            {
+                if(params.hasOwnProperty('selectFrom'))
+                {
+                    selectionStartAt = parseInt(params.selectFrom);
+                }
+                if(params.hasOwnProperty('nbByPage'))
+                {
+                    nbByPage         = parseInt(params.nbByPage);
+                }
+            }
+            else
+            {
+                
+            }
+        }
+        else
+        {
+            
+        }
+        
         var This       = this;
         var PUBLIC_KEY = This.PUBLIC_KEY;
         var hash       = This.hash;
@@ -372,8 +406,8 @@ Personnages.prototype=
         
         var dataAPI_CharacterDataContainer =
         {
-            offset : 100,
-            limit  : 22
+            offset : selectionStartAt,
+            limit  : nbByPage
         };
         
         var apiParams = this.generateUrlParams(dataAPI_CharacterDataContainer);
@@ -396,14 +430,14 @@ Personnages.prototype=
             callback : function (reponse)
             {
                 var rep = JSON.parse(reponse);
-                This.showListChars(rep);
+                This.showListChars(rep,nbByPage,selectionStartAt);
             },
         };
         
         var ajax = new AjaxHome(paramsAjax);  
     },
     
-    showListChars:function(json_listChars)
+    showListChars:function(json_listChars,nbByPage,selectionStartAt)
     {
         if(json_listChars.hasOwnProperty('data'))
         {
@@ -513,7 +547,11 @@ Personnages.prototype=
                     var cList = getID('cListe');
                     cList.innerHTML = reponse;
                     
-                    var filtres = new Filtrages();
+                    var filtres   = new Filtrages();
+                    var selection = new Selection();
+                    
+                    getID('nbParPage').value      = nbByPage;
+                    getID('selectionStart').value = selectionStartAt;
                 }
             };
             

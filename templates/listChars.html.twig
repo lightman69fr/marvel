@@ -1,16 +1,45 @@
 {% block listePersonnages %}
     <div class="filtrage">
-        <div class="titre">
-            Filtrer les personnage
+        <div class="blocFiltres">
+            <div class="titre">
+                Filtrer les personnage
+            </div>
+            <div class="cButtons" id="btnsFiltrage">
+                <button id="inComics" type="button" clicked="0" class="btnFiltre">
+                    Seulement présents dans au moins un comic
+                </button>
+                <button id="hasDescription" type="button" clicked="0" class="btnFiltre">
+                    Seulement ceux qui ont une description
+                </button>
+            </div>
         </div>
-        <div class="cButtons" id="btnsFiltrage">
-            <button id="inComics" type="button" clicked="0" class="btnFiltre">
-                Seulement présents dans au moins un comic
-            </button>
-            <button id="hasDescription" type="button" clicked="0" class="btnFiltre">
-                Seulement ceux qui ont une description
+        <div class="blocSelections" id="blocSelections">
+            <div>
+                <div class="_div">
+                    <span>Sélectionner </span>
+                    <select id="nbParPage">
+                        <option value="05">05</option>
+                        <option value="10">10</option>
+                        <option value="20">20</option>
+                        <option value="22" selected="selected">22</option>
+                        <option value="50">50</option>
+                        <option value="100">100</option>
+                    </select>
+                    <span> personnages</span>
+                </div>
+                <div class="_div">
+                    <span>à partir de :</span>
+                    <input type="text" id="selectionStart" value="0" />
+                </div>
+                <div class="_div">
+                    nombre de résultats : {{ resultatSelect }}
+                </div>
+            </div>
+            <button type="button" id="validSelection">
+                Valider
             </button>
         </div>
+        
     </div>
     <ul id="listePersonnages">
     {%for personnage in dataPerso %}
