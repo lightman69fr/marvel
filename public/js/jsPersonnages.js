@@ -133,18 +133,18 @@ Personnages.prototype=
                 
                 var paramsAjaxComics =
                 {
-                    page     : pageReadComics,
+                    page     : pageReadComics,      // url de récupération des comics
                     methode  : methode,
                     callback : function (reponse)
                     {
-                        var rep = JSON.parse(reponse);
+                        var rep = JSON.parse(reponse);  // formatage de la liste des comics au format JSON
                         
                         json_listeComics = rep;
                         
                         // une fois tout récupéré, on fait un appel à la méthode showPersonnage qui se charge de faire le tri dans les données et de les envoyer en JSON à Symfony4
                         This.showPersonnage(json_infosPersonnages,json_listeComics);
                     },
-                    withLoader : function()
+                    withLoader : function()     // callback pour le message d'attente
                     {
                         var cListe = getID('cDataPersonnage');
 
