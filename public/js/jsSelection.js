@@ -37,6 +37,7 @@ Selection.prototype=
             
             if(nbParPage > 100)
             {
+                alert('Vous ne pouvez pas sélectionner plus de 100 personnages à la fois.\n100 personnages seront sélectionnés');
                 nbParPage = 100;
             }
             

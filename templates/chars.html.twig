@@ -1,6 +1,9 @@
 {% extends "layout.html.twig" %}
 
 {% block site %}
+    <input type="hidden" id="pageCourante" value="{{ page }}" />
+    <input type="hidden" id="selectLimit"  value="{{ limite }}" />
+    
     <div class="titre">
         Liste des personnages
     </div>

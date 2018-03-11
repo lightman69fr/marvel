@@ -22,8 +22,11 @@
                         <option value="10">10</option>
                         <option value="20">20</option>
                         <option value="22" selected="selected">22</option>
+                        <option value="30">30</option>
+                        <option value="36">36</option>
                         <option value="50">50</option>
                         <option value="100">100</option>
+                        <option value="144">144</option>
                     </select>
                     <span> personnages</span>
                 </div>
@@ -31,45 +34,85 @@
                     <span>à partir de :</span>
                     <input type="text" id="selectionStart" value="0" />
                 </div>
-                <div class="_div">
-                    nombre de résultats : {{ resultatSelect }}
-                </div>
             </div>
             <button type="button" id="validSelection">
                 Valider
             </button>
+            <div class="_div">
+                nombre de résultats : {{ resultatSelect }}, total : {{ totalPersonnages }}
+            </div>
         </div>
         
     </div>
     <ul id="listePersonnages">
     {%for personnage in dataPerso %}
         <li id="{{personnage.persID}}" hasDescription="{{ personnage.hasDesc }}" inComics="{{ personnage.inComics }}">
-            <a href="{{ personnage.lienPersonnage }}">
-                <div class="cImg" style="background-image: url({{ personnage.image }})">
-                    <div class="persCount">
-                        {{personnage.persCount}}
-                    </div>
-                </div>
-                <div class="persDatas">
-                    <div class="persNom">{{personnage.nom}}</div>
-                    <div class="infosPersonnage">
-                        {% if personnage.hasDesc > 0 %}
-                        <div class="hasDesc">
-                            {{ personnage.hasDesc }}
-                            <img src="{{ asset('images/description.png') }}" title="Dispose d'une description" alt="Dispose d'une description" />
+            <div class="cPersonnage">
+                <a href="{{ personnage.lienPersonnage }}">
+                    <div class="cImg" style="background-image: url({{ personnage.image }})">
+                        <div class="persCount">
+                            {{personnage.persCount}}
                         </div>
-                        {% endif %}
-
-                        {% if personnage.inComics > 0 %}
-                        <div class="inComics">
-                            <img src="{{ asset('images/comics.png') }}" title="Est dans au moins un comics" alt="Est dans au moins un comics" />
-                        </div>
-                        {% endif %}
-
                     </div>
-                </div>
-            </a>
+                    <div class="persDatas">
+                        <div class="persNom">{{personnage.nom}}</div>
+                        <div class="infosPersonnage">
+                            {% if personnage.hasDesc > 0 %}
+                            <div class="hasDesc">
+                                <span>{{ personnage.hasDesc }}</span>
+                                <img src="{{ asset('images/description.png') }}" title="Dispose d'une description" alt="Dispose d'une description" />
+                            </div>
+                            {% endif %}
+
+                            {% if personnage.inComics > 0 %}
+                            <div class="inComics">
+                                <img src="{{ asset('images/comics.png') }}" title="Est dans au moins un comics" alt="Est dans au moins un comics" />
+                            </div>
+                            {% endif %}
+
+                        </div>
+                    </div>
+                </a>
+            </div>
         </li>
     {% endfor %}
     </ul>
+    <div class="cPagination">
+        <div class="pagination">
+            <ul>
+                {% if pageActuelle == 1 %}
+                
+                {% else %}
+                <li class="pageFirst">
+                    <a href="{{ pageFirst }}" class="lienPage">p1</a> 
+                </li>
+                {% endif %}
+            {% for page in tabPages %}
+                {% if page == 'sep' %}
+                    <li class="sep">
+                        
+                    </li>
+                {% else %}
+                    {% if page.valeur == pageActuelle %}
+                    <li class='cLien'>
+                        <a href="{{ page.lien }}" class="lienPageCourante"><b>{{ page.nom }}</b></a>
+                    </li>
+                    {% else %}
+                    <li class='cLien'>
+                        <a href="{{ page.lien }}" class="lienPage">{{ page.nom }}</a>
+                    </li>
+                    {% endif %}
+                    
+                {% endif %}
+            {% endfor %}
+                {% if pageActuelle == nbPages %}
+                
+                {% else %}
+                <li class="pageEnd">
+                   <a href="{{ pageEnd }}" class="lienPage">p{{ nbPages }}</a> 
+                </li>
+                {% endif %}
+            </ul>
+        </div>
+    </div>
 {% endblock %}

@@ -368,7 +368,15 @@ Personnages.prototype=
         var selectionStartAt = 100; // valeur par défaut
         var nbByPage         = 22;  // valeur par défaut
         
-        if(isDefined(params))
+        var selectLimit  = parseInt(getID('selectLimit').value);
+        var pageCourante = parseInt(getID('pageCourante').value);
+        
+        if(pageCourante > 0 && !isDefined(params))
+        {
+            selectionStartAt = (pageCourante-1)*selectLimit;
+            nbByPage         = selectLimit;
+        }
+        else if(isDefined(params))
         {
             if(isObject(params))
             {
@@ -430,14 +438,14 @@ Personnages.prototype=
             callback : function (reponse)
             {
                 var rep = JSON.parse(reponse);
-                This.showListChars(rep,nbByPage,selectionStartAt);
+                This.showListChars(rep,nbByPage,selectionStartAt,pageCourante);
             },
         };
         
         var ajax = new AjaxHome(paramsAjax);  
     },
     
-    showListChars:function(json_listChars,nbByPage,selectionStartAt)
+    showListChars:function(json_listChars,nbByPage,selectionStartAt,pageCourante)
     {
         if(json_listChars.hasOwnProperty('data'))
         {
@@ -445,6 +453,7 @@ Personnages.prototype=
             
             var nombre   = data.count;
             var debut    = data.offset;
+            var total    = data.total;
             
             var image    = null;
             var persID   = null;
@@ -501,14 +510,15 @@ Personnages.prototype=
                         }
                         
                         hasDesc = hasDesc.toString();
+                        total   = total.toString();
                         
                         var objPerso =
                         {
-                            persID   : personnage.id,
-                            nom      : personnage.name,
-                            image    : image,
-                            hasDesc  : hasDesc,
-                            inComics : inComics
+                            persID    : personnage.id,
+                            nom       : personnage.name,
+                            image     : image,
+                            hasDesc   : hasDesc,
+                            inComics  : inComics
                         };
                         
                         listePersonnages[i] = objPerso;
@@ -516,6 +526,15 @@ Personnages.prototype=
                 }
             }
             
+            var paramsPagination =
+            {
+                total        : total,
+                start        : selectionStartAt,
+                limit        : nbByPage,
+                pageCourante : pageCourante
+            };
+            
+            paramsPagination = JSON.stringify(paramsPagination);
             
             var objListePersonnages = {};
             
@@ -525,17 +544,24 @@ Personnages.prototype=
                 objListePersonnages['pers'+pers.persID] = JSON.stringify(pers);
             }
             
-            var params = objListePersonnages;
+            objListePersonnages = JSON.stringify(objListePersonnages);
+            
+            var params =
+            {
+                listePersonnages  : objListePersonnages,
+                donneesPagination : paramsPagination
+            };
+            
             
             var page    = '/getChars';
             var methode = 'POST';
             
             var paramsAjax =
             {
-                page     : page,
-                methode  : methode,
-                data     : params,
-                headers  : 
+                page      : page,
+                methode   : methode,
+                data      : params,
+                headers   : 
                 [
                     {
                         titre  : 'Content-type',

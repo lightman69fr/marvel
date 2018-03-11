@@ -10,6 +10,12 @@ personnages:
     path: /personnages
     controller: App\Controller\CharsController::index
 
+pages:
+    path: /personnages/p{page}-{limit}
+    controller: App\Controller\CharsController::index
+    requirements:
+        path: ^p[1-9]+-[1-9]{3}$
+
 getChars:
     path: /getChars
     controller: App\Controller\CharsController::getPersonnages
