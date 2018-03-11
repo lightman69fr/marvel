@@ -175,6 +175,11 @@ class CharsController extends AbstractController
 			{
 				$tabComicsAAfficher[$i] = $listeDesComics[$i];
 				$tabComicsAAfficher[$i]->count = $i+1;
+				
+				$imageChemin = $listeDesComics[$i]->images->path;
+				$imageExt    = $listeDesComics[$i]->images->extension;
+				
+				$tabComicsAAfficher[$i]->image = $imageChemin.'.'.$imageExt;
 			}
 			
 			return $this->render('showCharDetails.html.twig',

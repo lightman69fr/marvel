@@ -5,6 +5,7 @@ var AjaxHome = function(params)
     this.data        = false;       // (objet) contenant les données à envoyer
     this.headers     = false;       // [array] tableau des headers supplémentaires au format (objet)
     this.useCallback = false;       // fonction à appeler lorsque la requète a abouti (200);
+    this.withLoader  = false;       // callback pour un éventuel Loader
     
     this.xhr         = false;       // lien XHR
     
@@ -66,6 +67,21 @@ var AjaxHome = function(params)
         }
         
         
+        if(params.hasOwnProperty('withLoader'))
+        {
+            if(isFunction(params.withLoader))
+            {
+                this.withLoader = params.withLoader;
+            }
+            else
+            {
+                this.withLoader = false;
+            }
+        }
+        
+        
+        
+        
         
         
         if(this.methode !== false && this.page !== false)
@@ -104,6 +120,8 @@ AjaxHome.prototype=
     
     SendPage:function()
     {
+        var This = this;
+        
         if(this.methode !== false && this.page !== false)
         {
             var methode = this.methode;
@@ -136,7 +154,17 @@ AjaxHome.prototype=
                         console.log(xhrLink.responseText);
                     }
                 }
+                
             };
+            
+            xhrLink.onprogress=function()
+            {
+                if(!isBoolean(This.withLoader))
+                {
+                    var loader = This.withLoader;
+                    loader();
+                }
+            }
 
             xhrLink.open(methode,page,true);
             

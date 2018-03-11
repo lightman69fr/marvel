@@ -18,16 +18,20 @@
         {% if personnageNbComics > 0%}
         <div class="listeDesComics">
             <div class="titre">
-                Ses trois premières apparitions :
+                Ses trois premières parutions :
             </div>
             <ul class="liste">
                 {%for comic in personnagePremiersComics %}
                     <li id="{{ comic.id }}}">
-                        <div class="comicCount">
-                            {{ comic.count }}
-                        </div>
                         <div class="comicTitre">
-                            {{ comic.titre }}
+                                {{ comic.titre }}
+                            </div>
+                        <div class="cImg">
+                            <div class="comicCount">
+                                {{ comic.count }}
+                            </div>
+
+                            <img src="{{ comic.image }}" />
                         </div>
                     </li>
                 {% endfor %}

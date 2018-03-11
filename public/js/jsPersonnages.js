@@ -95,8 +95,7 @@ Personnages.prototype=
         var dataAPI_ComicsListParameters =
         {
             offset  : 0,
-            limit   : 100,
-            orderBy : 'onsaleDate'
+            orderBy : 'onsaleDate%2CissueNumber'
         };
         
         var apiParams      = this.generateUrlParams(dataAPI_ComicsListParameters);  // création des paramètres pour la requète d'accès à l'API Marvel en mode Server Side
@@ -142,11 +141,24 @@ Personnages.prototype=
                         
                         json_listeComics = rep;
                         
-                        console.log(json_listeComics);
-                        
                         // une fois tout récupéré, on fait un appel à la méthode showPersonnage qui se charge de faire le tri dans les données et de les envoyer en JSON à Symfony4
                         This.showPersonnage(json_infosPersonnages,json_listeComics);
                     },
+                    withLoader : function()
+                    {
+                        var cListe = getID('cDataPersonnage');
+
+                        if(!BlocPresent('cLoader_getPersonnage'))
+                        {
+                            var cLoader = document.createElement('div');
+                            cLoader.id = 'cLoader_getPersonnage';
+                            cLoader.addClass('loader');;
+                            cListe.appendChild(cLoader);
+                        }
+
+                        cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
+                    }
+                    
                 };
                 
                 //  exécution de la requète Ajax
@@ -260,42 +272,50 @@ Personnages.prototype=
                         var comic = listeComics[i];
                         if(isObject(comic))
                         {
-                            if(comic.hasOwnProperty('id'))
+                            //console.log(comic);
+                            
+                            if(comic.digitalId > 0)
                             {
-                                comicID = comic.id.toString();
+                                if(comic.hasOwnProperty('id'))
+                                {
+                                    comicID = comic.id.toString();
+                                }
+
+                                if(comic.hasOwnProperty('title'))
+                                {
+                                    comicTitle = comic.title;
+                                }
+
+                                if(comic.hasOwnProperty('description'))
+                                {
+                                    comicDesc = comic.description;
+                                }
+
+                                if(comic.hasOwnProperty('images'))
+                                {
+                                    comicImages = comic.images;
+                                }
+
+                                if(comic.hasOwnProperty('dates'))
+                                {
+                                    comicDates = comic.dates;
+                                }
+
+                                // données du comic
+                                listeComicsShort[i] =
+                                {
+                                    id          : comicID,          // id du comic
+                                    titre       : comicTitle,       // titre du comic
+                                    description : comicDesc,        // description du comic
+                                    images      : comicImages[0],   // image(s) du comic
+                                    dates       : comicDates        // date(s) du comic
+                                };
                             }
                             
-                            if(comic.hasOwnProperty('title'))
-                            {
-                                comicTitle = comic.title;
-                            }
-                            
-                            if(comic.hasOwnProperty('description'))
-                            {
-                                comicDesc = comic.description;
-                            }
-                            
-                            if(comic.hasOwnProperty('images'))
-                            {
-                                comicImages = comic.images;
-                            }
-                            
-                            if(comic.hasOwnProperty('dates'))
-                            {
-                                comicDates = comic.dates;
-                            }
                         }
-                        
-                        // données du comic
-                        listeComicsShort[i] =
-                        {
-                            id          : comicID,          // id du comic
-                            titre       : comicTitle,       // titre du comic
-                            description : comicDesc,        // description du comic
-                            images      : comicImages,      // image(s) du comic
-                            dates       : comicDates        // date(s) du comic
-                        };
                     }
+                    
+                    listeComicsShort.clean();
                 }
             }
             else
@@ -350,6 +370,20 @@ Personnages.prototype=
             {
                 var cData = getID('cDataPersonnage');
                 cData.innerHTML = reponse;      // affichage du personnage dans le bloc
+            },
+            withLoader : function()
+            {
+                var cPers = getID('cDataPersonnage');
+                
+                if(!BlocPresent('cLoader_personnage'))
+                {
+                    var cLoader = document.createElement('div');
+                    cLoader.id = 'cLoader_personnage';
+                    cLoader.addClass('loader');;
+                    cPers.appendChild(cLoader);
+                }
+                
+                cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
             }
         };
 
@@ -440,6 +474,20 @@ Personnages.prototype=
                 var rep = JSON.parse(reponse);
                 This.showListChars(rep,nbByPage,selectionStartAt,pageCourante);
             },
+            withLoader : function()
+            {
+                var cListe = getID('cListe');
+                
+                if(!BlocPresent('cLoader_listePersonnages'))
+                {
+                    var cLoader = document.createElement('div');
+                    cLoader.id = 'cLoader_listePersonnages';
+                    cLoader.addClass('loader');;
+                    cListe.appendChild(cLoader);
+                }
+                
+                cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
+            }
         };
         
         var ajax = new AjaxHome(paramsAjax);  
@@ -578,6 +626,20 @@ Personnages.prototype=
                     
                     getID('nbParPage').value      = nbByPage;
                     getID('selectionStart').value = selectionStartAt;
+                },
+                withLoader : function()
+                {
+                    var cListe = getID('cListe');
+
+                    if(!BlocPresent('cLoader_showListePersonnages'))
+                    {
+                        var cLoader = document.createElement('div');
+                        cLoader.id = 'cLoader_showListePersonnages';
+                        cLoader.addClass('loader');
+                        cListe.appendChild(cLoader);
+                    }
+
+                    cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
                 }
             };
             
