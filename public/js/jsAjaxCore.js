@@ -8,6 +8,7 @@ var AjaxHome = function(params)
     this.withLoader  = false;       // callback pour un éventuel Loader
     
     this.xhr         = false;       // lien XHR
+    this.reponse     = false;       // réponse
     
     if(isDefined(params) && isObject(params))
     {
@@ -143,7 +144,8 @@ AjaxHome.prototype=
             {
                 if(xhrLink.status == 200)
                 {
-                        
+                    This.setReponse(xhrLink.responseText);
+                    
                     if(isFunction(callback))
                     {
                         callback(xhrLink.responseText);
@@ -185,7 +187,15 @@ AjaxHome.prototype=
     
     
     
+    getReponse:function()
+    {
+        return this.reponse;
+    },
     
+    setReponse:function(reponse)
+    {
+        this.reponse = reponse;
+    },
     
     addHeader:function(objHeader)
     {

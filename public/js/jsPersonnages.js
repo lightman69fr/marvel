@@ -155,6 +155,10 @@ Personnages.prototype=
                             cLoader.addClass('loader');;
                             cListe.appendChild(cLoader);
                         }
+                        else
+                        {
+                            var cLoader = getID('cLoader_getPersonnage');
+                        }
 
                         cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
                     }
@@ -167,7 +171,7 @@ Personnages.prototype=
         };
         
         //  exécution de la requète Ajax
-        var ajaxPerso = new AjaxHome(paramsAjaxPerso); 
+        var ajaxPerso = new AjaxHome(paramsAjaxPerso);
     },
     
     
