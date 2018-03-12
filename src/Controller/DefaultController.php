@@ -10,17 +10,18 @@ class DefaultController extends AbstractController
 		
 	}
 
+	//	affichage du layout
 	public function index()
     {
 		return $this->render('layout.html.twig');
     }
 	
+	//	Un petit menu pour faire joli
 	public function menu()
 	{
 		$tabMenu = array(	
 			array(	'id' => 'menuHome' ,'title'	=> 'Accueil'        , 'href' => '/home'),
 			array(	'id' => 'menuChars','title'	=> 'Personnages'    , 'href' => '/personnages'),
-			
 		);
 		
 		return $this->render('menu.html.twig',

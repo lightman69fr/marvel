@@ -11,8 +11,10 @@ class CharsController extends AbstractController
 		
 	}
 
+	//	actions par défaut pour la liste des personnages
 	public function index(Request $req)
     {
+		// si on reçoit via l'URL les paramètres de sélection
 		if($req->isMethod('GET'))
 		{
 			$page   = $req->get('page');
@@ -20,6 +22,7 @@ class CharsController extends AbstractController
 		}
 		else
 		{
+			// Sinon
 			$page   = 0;
 			$limite = 20;
 		}
@@ -31,102 +34,113 @@ class CharsController extends AbstractController
 		]);
     }
 	
+	// méthode de récupération des personnages.
 	public function getPersonnages(Request $postReq)
 	{
-		$dataPost = $postReq->request->all();
-		
-		$donneesPagination = json_decode($dataPost['donneesPagination']);
-		$listePersonnages  = json_decode($dataPost['listePersonnages']);
-		
-		$dataPers = array();
-		$incPers  = 0;
-		foreach($listePersonnages as $personnage)
+		// les paramètres sont forcément issus de POST
+		if($postReq->isMethod('POST'))
 		{
-			$obj = json_decode($personnage);
-			
-			$dataPers[$incPers]['lienPersonnage'] = '/personnages/show/'.$obj->{'persID'};
-			$dataPers[$incPers]['persCount']      = $incPers+1;
-			$dataPers[$incPers]['persID']         = $obj->{'persID'};
-			$dataPers[$incPers]['nom']            = $obj->{'nom'};
-			$dataPers[$incPers]['image']          = $obj->{'image'};
-			$dataPers[$incPers]['hasDesc']        = $obj->{'hasDesc'};
-			$dataPers[$incPers]['inComics']       = $obj->{'inComics'};
-			
-			$incPers++;
-		}
-		
-		$totalPersonnages = $donneesPagination->{'total'};
-		$nbParPages       = $donneesPagination->{'limit'};
-		
-		$nbPages     = round($totalPersonnages/$nbParPages,0,PHP_ROUND_HALF_DOWN);
-		
-		$tabPages    = array();
-		$incNbPages  = 0;
-		$incPage     = 1;
-		$nbAAfficher = 8;
-		$upAndDown   = round($nbAAfficher/2, 0,PHP_ROUND_HALF_UP);
-				
-		$pageActuelle = $donneesPagination->pageCourante;
-		if($pageActuelle == 0)
-		{
-			$pageActuelle = 1;
-		}
-		
-		for ($i=0;$i<$nbAAfficher;$i++)
-		{
-			if($pageActuelle > 0 && $pageActuelle < $nbAAfficher)
-			{	// si pageActuelle compris entre 1 et le milieu bas
-				$incPage = $i+1;
+			$dataPost = $postReq->request->all();
+
+			$donneesPagination = json_decode($dataPost['donneesPagination']);	// on décode le JSON des données de pagination
+			$listePersonnages  = json_decode($dataPost['listePersonnages']);	// on décode le JSON de la liste des personnages 
+
+			$dataPers = array();
+			$incPers  = 0;
+			foreach($listePersonnages as $personnage)
+			{
+				$obj = json_decode($personnage);
+
+				$dataPers[$incPers]['lienPersonnage'] = '/personnages/show/'.$obj->{'persID'};
+				$dataPers[$incPers]['persCount']      = $incPers+1;
+				$dataPers[$incPers]['persID']         = $obj->{'persID'};
+				$dataPers[$incPers]['nom']            = $obj->{'nom'};
+				$dataPers[$incPers]['image']          = $obj->{'image'};
+				$dataPers[$incPers]['hasDesc']        = $obj->{'hasDesc'};
+				$dataPers[$incPers]['inComics']       = $obj->{'inComics'};
+
+				$incPers++;
 			}
-			elseif ($pageActuelle >= $nbPages - $nbAAfficher+2 && $pageActuelle <= $nbPages)
-			{	// si pageActuelle compris entre milieu haut et nbPages
-				
-				if($pageActuelle > $nbPages-$nbAAfficher)
-				{
-					$incPage = $nbPages-$nbAAfficher+$i+1;
+
+			$totalPersonnages = $donneesPagination->{'total'};
+			$nbParPages       = $donneesPagination->{'limit'};
+
+			$nbPages     = round($totalPersonnages/$nbParPages,0,PHP_ROUND_HALF_DOWN);
+
+			$tabPages    = array();
+			$incNbPages  = 0;
+			$incPage     = 1;
+			$nbAAfficher = 8;
+			$upAndDown   = round($nbAAfficher/2, 0,PHP_ROUND_HALF_UP);
+			
+			
+			/*********** pagination ***********/
+			$pageActuelle = $donneesPagination->pageCourante;
+			if($pageActuelle == 0)
+			{
+				$pageActuelle = 1;
+			}
+
+			for ($i=0;$i<$nbAAfficher;$i++)
+			{
+				if($pageActuelle > 0 && $pageActuelle < $nbAAfficher)
+				{	// si pageActuelle compris entre 1 et le milieu bas
+					$incPage = $i+1;
+				}
+				elseif ($pageActuelle >= $nbPages - $nbAAfficher+2 && $pageActuelle <= $nbPages)
+				{	// si pageActuelle compris entre milieu haut et nbPages
+
+					if($pageActuelle > $nbPages-$nbAAfficher)
+					{
+						$incPage = $nbPages-$nbAAfficher+$i+1;
+					}
+					else
+					{
+						$incPage = $i+$pageActuelle;
+					}
 				}
 				else
 				{
-					$incPage = $i+$pageActuelle;
+					$incPage = $pageActuelle-$upAndDown+$i;
 				}
+
+				$tabPages[$incNbPages]['nom']    = 'p'.$incPage;
+				$tabPages[$incNbPages]['valeur'] = $incPage;
+				$tabPages[$incNbPages]['lien']   = $this->get('router')->generate('pages', 
+				[
+					'page'   => $incPage,
+					'limit'  => $nbParPages
+				]);
+				$incNbPages++;
 			}
-			else
-			{
-				$incPage = $pageActuelle-$upAndDown+$i;
-			}
-			
-			$tabPages[$incNbPages]['nom']    = 'p'.$incPage;
-			$tabPages[$incNbPages]['valeur'] = $incPage;
-			$tabPages[$incNbPages]['lien']   = $this->get('router')->generate('pages', 
+			/********** / pagination **********/
+
+			return $this->render('listChars.html.twig',
 			[
-				'page'   => $incPage,
-				'limit'  => $nbParPages
+				'dataPerso'        => $dataPers,
+				'resultatSelect'   => $incPers,
+				'totalPersonnages' => $totalPersonnages,
+				'selectedFrom'     => $donneesPagination->{'start'},
+				'nbSelected'       => $nbParPages,
+				'tabPages'         => $tabPages,
+				'pageActuelle'     => $pageActuelle,
+				'nbPages'          => $nbPages,
+				'pageFirst'        => $this->get('router')->generate('pages', 
+				[
+					'page'   => 1,
+					'limit'  => $nbParPages
+				]),
+				'pageEnd'          => $this->get('router')->generate('pages', 
+				[
+					'page'   => $nbPages,
+					'limit'  => $nbParPages
+				]),
 			]);
-			$incNbPages++;
+		}
+		else
+		{
 			
 		}
-		
-		return $this->render('listChars.html.twig',
-		[
-			'dataPerso'        => $dataPers,
-			'resultatSelect'   => $incPers,
-			'totalPersonnages' => $totalPersonnages,
-			'selectedFrom'     => $donneesPagination->{'start'},
-			'nbSelected'       => $nbParPages,
-			'tabPages'         => $tabPages,
-			'pageActuelle'     => $pageActuelle,
-			'nbPages'          => $nbPages,
-			'pageFirst'        => $this->get('router')->generate('pages', 
-			[
-				'page'   => 1,
-				'limit'  => $nbParPages
-			]),
-			'pageEnd'          => $this->get('router')->generate('pages', 
-			[
-				'page'   => $nbPages,
-				'limit'  => $nbParPages
-			]),
-		]);
 	}
 	
 	public function showPersonnage(Request $persIDreq)

@@ -654,12 +654,6 @@ Personnages.prototype=
     
     
     
-    
-    
-    
-    
-    
-    
     generateUrlParams:function(objParams)
     {
         var chaineParams = '';
