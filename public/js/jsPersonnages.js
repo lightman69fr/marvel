@@ -386,6 +386,10 @@ Personnages.prototype=
                     cLoader.addClass('loader');;
                     cPers.appendChild(cLoader);
                 }
+                else
+                {
+                    var cLoader = getID('cLoader_personnage');
+                }
                 
                 cLoader.innerHTML = '<div><div>Chargement des données</div></div>';
             }
