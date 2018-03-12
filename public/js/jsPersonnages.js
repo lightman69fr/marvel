@@ -395,10 +395,7 @@ Personnages.prototype=
         
         /******************* / envoi des données du personnage *******************/
     },
-    
-    
-    
-    
+
     
     // méthode permettant de récupérer la liste des personnages
     getListPersonnages:function(params)
