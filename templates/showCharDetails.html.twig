@@ -12,7 +12,12 @@
     </div>
     <div class="personnageCarriere">
         <div class="nbComics">
-            Ce personnage apparaît dans <b>{{ personnageNbComics }}</b> comics de Marvel.
+            {% if personnageNbComics > 0 %}
+            Ce personnage a dans <b>{{ personnageNbComics }}</b> comics de Marvel.
+            {% else %}
+            Ce personnage n'a pas de comic à lui.
+            {% endif %}
+            
         </div>
         
         {% if personnageNbComics > 0%}
