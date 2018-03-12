@@ -133,6 +133,8 @@ class CharsController extends AbstractController
 	{
 		if($persIDreq->isMethod('GET'))
 		{
+			// si on reçoit l'id du personnage
+			
 			$persID = $persIDreq->get('id');
 			
 			return $this->render('showChar.html.twig',
@@ -142,6 +144,8 @@ class CharsController extends AbstractController
 		}
 		elseif($persIDreq->isMethod('POST'))
 		{
+			// si on reçoit les données de la requète AJAX
+			
 			$dataPost = $persIDreq->request->all();
 			
 			$donneesPersonnage     = $dataPost['dataPersonnage'];
@@ -182,6 +186,7 @@ class CharsController extends AbstractController
 				$tabComicsAAfficher[$i]->image = $imageChemin.'.'.$imageExt;
 			}
 			
+			// page d'affichage du personnage.
 			return $this->render('showCharDetails.html.twig',
 			[
 				'userName'                 => 'none',

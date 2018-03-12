@@ -20,7 +20,6 @@ class DefaultController extends AbstractController
 		$tabMenu = array(	
 			array(	'id' => 'menuHome' ,'title'	=> 'Accueil'        , 'href' => '/home'),
 			array(	'id' => 'menuChars','title'	=> 'Personnages'    , 'href' => '/personnages'),
-			array(	'id' => 'doc'      ,'title'	=> 'Documentation'  , 'href' => '/home'),
 			
 		);
 		
