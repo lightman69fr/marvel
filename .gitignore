@@ -10,3 +10,6 @@
 .web-server-pid
 ###< symfony/web-server-bundle ###
 /nbproject/private/
+###> phpunit/phpunit ###
+/phpunit.xml
+###< phpunit/phpunit ###
